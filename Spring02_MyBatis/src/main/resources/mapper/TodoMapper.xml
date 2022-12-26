@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="todo">
+
+	<select id="getlist" resultType="com.sy.spring02.todo.dto.TodoDto">
+		SELECT num, content, TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate
+		FROM todo
+		ORDER BY num ASC		
+	</select>
+	
+	<select id="insert" resultType="com.sy.spring02.todo.dto.TodoDto">
+		INSERT INTO todo
+		(num, content, regdate)
+		VALUES(todo_seq.NEXTVAL, #{content}, sysdate)
+	</select>	
+	
+	<select id="delete" resultType="com.sy.spring02.todo.dto.TodoDto">
+		DELETE FROM todo
+		WHERE num=#{num}
+	</select>
+	
+	<select id="getData" parameterType="int" resultType="com.sy.spring02.todo.dto.TodoDto">
+		SELECT num, content, TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate
+		FROM todo
+		WHERE num=#{num}
+	</select>
+	
+	<select id="update" parameterType="com.sy.spring02.todo.dto.TodoDto">
+		UPDATE todo
+		SET content=#{content}
+		WHERE num=#{num}
+	</select>
+</mapper>

@@ -79,7 +79,7 @@ public class CafeController {
 	//댓글 더보기 요청 처리
 	@RequestMapping("/cafe/ajax_comment_list")
 	public String commentList(HttpServletRequest request) {
-      
+      		
 		//테스트를 위해 시간 지연시키기
 		try {
 			Thread.sleep(3000);
@@ -87,9 +87,9 @@ public class CafeController {
 			e.printStackTrace();
 		}
 		
-      service.moreCommentList(request);
+		service.moreCommentList(request);
       
-      return "cafe/ajax_comment_list";
+		return "cafe/ajax_comment_list";
 	}
 	//댓글 삭제 요청 처리
 	@RequestMapping("/cafe/comment_delete")

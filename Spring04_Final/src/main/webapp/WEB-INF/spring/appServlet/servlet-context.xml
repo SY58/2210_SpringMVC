@@ -99,7 +99,8 @@
 		<interceptor>
 			<mapping path="/cafe/*"/>
 			<exclude-mapping path="/cafe/list"/>
-			<exclude-mapping path="/cafe/ajax_comment_listD"/>
+			<exclude-mapping path="/cafe/detail"/>
+			<exclude-mapping path="/cafe/ajax_comment_list"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>

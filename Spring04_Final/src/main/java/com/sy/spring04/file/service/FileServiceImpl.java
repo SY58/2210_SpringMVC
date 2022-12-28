@@ -14,13 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sy.spring04.exception.NotDeleteException;
 import com.sy.spring04.file.dao.FileDao;
 import com.sy.spring04.file.dto.FileDto;
+import com.sy.spring04.gallery.dto.GalleryDto;
 
 @Service
 public class FileServiceImpl implements FileService{
 
 	@Autowired
 	private FileDao dao;
-	
+
    @Override
    public void getList(HttpServletRequest request) {
       //한 페이지에 몇개씩 표시할 것인지
@@ -38,12 +39,12 @@ public class FileServiceImpl implements FileService{
          //숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
          pageNum=Integer.parseInt(strPageNum);
       }   
-      
+
       //보여줄 페이지의 시작 ROWNUM
       int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
       //보여줄 페이지의 끝 ROWNUM
       int endRowNum=pageNum*PAGE_ROW_COUNT;
-      
+
       /*
          [ 검색 키워드에 관련된 처리 ]
          -검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.      
@@ -60,12 +61,12 @@ public class FileServiceImpl implements FileService{
 
       //특수기호를 인코딩한 키워드를 미리 준비한다. 
       String encodedK=URLEncoder.encode(keyword);
-         
+
       //FileDto 객체에 startRowNum 과 endRowNum 을 담는다.
       FileDto dto=new FileDto();
       dto.setStartRowNum(startRowNum);
       dto.setEndRowNum(endRowNum);
-   
+
       //만일 검색 키워드가 넘어온다면 
       if(!keyword.equals("")){
          //검색 조건이 무엇이냐에 따라 분기 하기
@@ -78,26 +79,26 @@ public class FileServiceImpl implements FileService{
             dto.setWriter(keyword);
          } // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
       }
-      
-      
+
+
       //파일 목록을 select 해 온다.(검색 키워드가 있는경우 키워드에 부합하는 전체 글) 
       List<FileDto> list=dao.getList(dto);
-      
+
       //전체 글의 갯수(검색 키워드가 있는경우 키워드에 부합하는 전체 글의 갯수)
       int totalRow=dao.getCount(dto);
-      
+
       //하단 시작 페이지 번호 
       int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
       //하단 끝 페이지 번호
       int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
-      
+
       //전체 페이지의 갯수 구하기
       int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
       //끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
       if(endPageNum > totalPageCount){
          endPageNum=totalPageCount; //보정해 준다. 
       }
-      
+
       //응답에 필요한 데이터를 view page 에 전달하기 위해  request scope 에 담는다
       request.setAttribute("list", list);
       request.setAttribute("pageNum", pageNum);
@@ -118,7 +119,7 @@ public class FileServiceImpl implements FileService{
 	      String orgFileName=myFile.getOriginalFilename();
 	      //파일의 크기
 	      long fileSize=myFile.getSize();
-	      
+
 	      // webapp/resources/upload 폴더 까지의 실제 경로(서버의 파일시스템 상에서의 경로)
 	      String realPath=request.getServletContext().getRealPath("/resources/upload");
 	      //저장할 파일의 상세 경로
@@ -160,17 +161,17 @@ public class FileServiceImpl implements FileService{
 
 	@Override
 	public void deleteFile(int num, HttpServletRequest request) {
-		
+
 		//삭제할 파일의 정보를 얻어오기
 		FileDto dto=dao.getData(num);
-		
+
 		//글 작성자와 로그인된 아이디가 일치하는지 확인해서 일치하면 삭제하고, 일치하지 않으면 예외를 발생시키기
 		String id=(String)request.getSession().getAttribute("id");
 		if(!dto.getWriter().equals(id)) {
 			//예외를 발생시키면 해당 예외를 처리하는 곳으로 실행의 흐름이 넘어간다.
 			throw new NotDeleteException("남의 파일 지우기 없기!");
 		}
-		
+
 		//파일 시스템에서 삭제(upload 폴더에서 해당파일을 삭제)
 		String saveFileName=dto.getSaveFileName();
 		String path=request.getServletContext().getRealPath("/resources/upload")

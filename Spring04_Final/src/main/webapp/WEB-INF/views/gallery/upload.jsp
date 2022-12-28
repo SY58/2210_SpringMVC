@@ -8,12 +8,9 @@
 <title>/views/gallery/upload.jsp</title>
 </head>
 <body>
-	<div class="container">
-		<p>
-			${id }님 파일을 저장했습니다.
-			<a href="${pageContext.request.contextPath}/gallery/list">인덱스로 돌아가기</a>
-		</p>
-		
-	</div>
+	<script>
+		alert("사진 업로드에 성공했습니다.");
+		location.href = "${pageContext.request.contextPath}/gallery/list";
+	</script>
 </body>
 </html>

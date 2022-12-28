@@ -6,149 +6,111 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/views/gallery/list.jsp</title>
+<title>/gallery/list.jsp</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <style>
-	li{ 
-		list-style: none; 
-	}
-	.gallery{	  
-	  margin: 0 auto; /* 블록요소 가운데처리 */
-	  overflow: hidden; /* float받은 자손이나 후손의 높이도 인식 */
-	}
-	
-	.gallery a{
-	  display: block; /* 영역 적용 위해 사용 */
-	  width: 100%; height: 100%;
-	
-	  overflow: hidden;
-	
-	  position: relative; /* absolute의 기본기준은 body로 처리 - 현재 요소로 기준변경 */
-	}
-	.gallery figure{
-	  width: 100%; height: 100%;
-	}
-	.gallery figcaption{
-		display: flex;
-        align-items: center;
-        justify-content: center;
-	
-	  	width: 100%; height: 100%;
-	  	background-color: rgba(0,0,0,0.7);
-	
-	  	position: absolute; /* 이미지와 겹치게 처리 */
-	  	top: 0; left: 0;
-	
-	  	color: #fff; text-align: center;
-	  	line-height: 200px;
-	
-	  	opacity: 0; /* 처음엔 안보이고 */
-	
-	  	transition: 0.3s;
-	}
-
-	.gallery a:hover figcaption, .gallery a:focus figcaption{	 
-	  opacity: 1;
-	}
+   /* card 이미지 부모요소의 높이 지정 */
+   .img-wrapper{
+      height: 250px;
+      /* transform 을 적용할대 0.3s 동안 순차적으로 적용하기 */
+      transition: transform 0.3s ease-out;
+   }
+   /* .img-wrapper 에 마우스가 hover 되었을때 적용할 css */
+   .img-wrapper:hover{
+      /* 원본 크기의 1.1 배로 확대 시키기*/
+      transform: scale(1.1);
+   }
+   
+   .card .card-text{
+      /* 한줄만 text 가 나오고  한줄 넘는 길이에 대해서는 ... 처리 하는 css */
+      display:block;
+      white-space : nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+   }
+   	.img-wrapper img{
+	   	width: 100%;
+	   	height: 100%;
+	   	/* fill | contain | cover | scale-down | none(default) */
+	   	/*	
+	   		cover - 부모의 크기에 맞게 키운 후, 자른다. 비율은 일정하게 증가한다. 
+	   		contain - 안잘린다. 대신 빈 공간이 남을 수 있다.
+	   		fill - 부모의 크기에 딱 맞게, 비율 관계 없이 맞춘다.(이미지가 일그러질 수 있다.)
+	   		scale-down - 가로, 세로 중에 큰 것을 부모의 크기에 맞춘 상태까지만 커지거나 작아지고, 비율은 일정하다.
+	   	*/
+		object-fit: contain;	
+   	}
 </style>
 </head>
 <body>
-	<div class="container">
-		<h1>갤러리 목록 보기</h1>
-		<a href="${pageContext.request.contextPath }/gallery/uploadform" class="btn btn-primary" style="margin-bottom: 10px;">사진 업로드</a>
-		<table class="table table-striped">
-			<thead class="table-primary" align="center">
-				<tr>
-					<th>번호</th>
-					<th>작성자</th>
-					<th>캡션</th>
-					<th>이미지</th>					
-					<th>등록일</th>
-					<th>삭제</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="tmp" items="${list }">				
-				<tr align="center">
-					<td>${tmp.num}</td>
-					<td>${tmp.writer}</td>
-					<td>${tmp.caption}</td>
-					<td style="line-height:0">
-						<div class="gallery">
-							<a href="${pageContext.request.contextPath }/resources/upload/${tmp.imagePath}" target="_blank">
-							
-							<figure>
-								<img class="img" src="${pageContext.request.contextPath }/resources/upload/${tmp.imagePath}" width="100" height="100" />	
-								<figcaption>원본 보기</figcaption>
-							</figure>	
-												
-							</a>
-						</div>
-					</td>					
-					<td>${tmp.regdate}</td>					
-					<%-- 작성자 본인인 경우에만 노출되도록 --%>					
-					<td>
-					<c:if test="${tmp.writer == id}">
-						<a href="${pageContext.request.contextPath}/gallery/delete?num=${tmp.num}">삭제</a>
-					</c:if>										
-					</td>
-				</tr>
-				</c:forEach>	
-
-			</tbody>		
-		</table>	
-		<nav>
-         <ul class="pagination">
-            <%--
-               startPageNum 이 1 이 아닌 경우에만 Prev 링크를 제공한다. 
-               &condition=${condition}&keyword=${encodedK}
-             --%>
-            <c:if test="${startPageNum ne 1 }">
-               <li class="page-item">
-                  <a class="page-link" href="list?pageNum=${startPageNum-1 }&condition=${condition}&keyword=${encodedK}">Prev</a>
-               </li>
-            </c:if>
-            <c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
-               <li class="page-item ${pageNum eq i ? 'active' : '' }">
-                  <a class="page-link" href="list?pageNum=${i }&condition=${condition}&keyword=${encodedK}">${i }</a>
-               </li>
-            </c:forEach>
-            <%--
-               마지막 페이지 번호가 전체 페이지의 갯수보다 작으면 Next 링크를 제공한다. 
-             --%>
-            <c:if test="${endPageNum lt totalPageCount }">
-               <li class="page-item">
-                  <a class="page-link" href="list?pageNum=${endPageNum+1 }&condition=${condition}&keyword=${encodedK}">Next</a>
-               </li>
-            </c:if>
-         </ul>
-      </nav>
-      <!-- 검색 폼 -->
-      <form action="list" method="get">
-         <label for="condition">검색조건</label>   
-         <select name="condition" id="condition">
-            <option value="caption_filename" ${condition eq 'caption_imagePath' ? 'selected' : '' }>캡션 + 파일명</option>
-            <option value="caption" ${condition eq 'caption' ? 'selected' : '' }>캡션</option>
-            <option value="writer" ${condition eq 'writer' ? 'selected' : '' }>작성자</option>
-         </select>
-         <input type="text" name="keyword" placeholder="검색어..." value="${keyword }"/>
-         <button type="submit" class="btn btn-primary">검색</button>
-      </form>
-      <c:if test="${not empty condition }">
-         <p>
-            <strong>${totalRow }</strong> 개의 자료가 검색 되었습니다.
-            <a href="list">리셋</a>
-         </p>
-      </c:if>
-   </div>
-   <script>
-      function deleteConfirm(num){
-         let isDelete=confirm("삭제 하시겠습니까?");
-         if(isDelete){
-            location.href="delete?num="+num;
-         }
-      }
-   </script>
-
+<div class="container">
+   	<a href="${pageContext.request.contextPath}/gallery/uploadform">사진 업로드 하러 가기</a><br/>
+   	<a href="${pageContext.request.contextPath}/gallery/ajax_form">사진 업로드 하러 가기2</a>
+   	<h1>갤러리 목록 입니다.</h1>
+   	<div class="row">
+		<c:forEach var="tmp" items="${list }">
+			<div class="col-6 col-md-4 col-lg-3">
+         		<div class="card mb-3">
+            		<a href="${pageContext.request.contextPath}/gallery/detail?num=${tmp.num}">
+	               		<div class="img-wrapper">
+	                  		<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
+	               		</div>
+            		</a>
+            		<div class="card-body">
+               			<p class="card-text">${tmp.caption}</p>
+               			<p class="card-text">by <strong>${tmp.writer}</strong></p>
+               			<p><small>${tmp.regdate}</small></p>
+            		</div>
+         		</div>
+      		</div>
+		</c:forEach>
+   	</div>
+   	<nav>
+	<ul class="pagination justify-content-center">
+		<c:choose>
+			<c:when test="${startPageNum ne 1 }">
+				<li class="page-item">
+               		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list?pageNum=${startPageNum - 1}">Prev</a>
+            	</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+               		<a class="page-link" href="javascript:">Prev</a>
+            	</li>
+			</c:otherwise>
+		</c:choose>
+		<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+			<c:choose>
+				<c:when test="${i eq pageNum }">
+					<li class="page-item active">
+                  		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list?pageNum=${i}">${i }</a>
+               		</li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item">
+                  		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list?pageNum=${i}">${i}</a>
+               		</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<c:choose>
+			<c:when test="${endPageNum lt totalPageCount }">
+				<li class="page-item">
+               		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list?pageNum=${endPageNum + 1}">Next</a>
+            	</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+               		<a class="page-link" href="javascript:">Next</a>
+            	</li>
+			</c:otherwise>
+		</c:choose>
+      </ul>
+   </nav>   
+</div>
+<%-- <script>
+   // card 이미지의 부모 요소를 선택해서 imgLiquid  동작(jquery plugin 동작) 하기 
+   $(".img-wrapper").imgLiquid();
+</script> --%>
 </body>
 </html>

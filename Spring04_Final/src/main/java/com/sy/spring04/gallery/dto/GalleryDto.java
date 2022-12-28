@@ -2,42 +2,34 @@ package com.sy.spring04.gallery.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class GalleryDto {	
+public class GalleryDto {
 	private int num;
 	private String writer;
-	//파일 설명
 	private String caption;
-	//원본 파일명
-	private String orgFileName;
-	//파일 시스템에 저장된 파일명
-	private String saveFileName;
-	//파일의 크기 
-	private long fileSize;
-	//파일의 경로
 	private String imagePath;
 	private String regdate;
-	//페이징 처리를 위한 필드
 	private int startRowNum;
 	private int endRowNum;
-	//파일 업로드 처리를 하기 위한 필드
-	private MultipartFile myFile;
+	private int prevNum; //이전글의 글번호
+	private int nextNum; //다음글의 글번호
+	private MultipartFile image;	//이미지 파일 업로드 처리를 위한 필드
 
-	public GalleryDto () {}
+	//디폴트 생성자 
+	public GalleryDto() {}
 
-	public GalleryDto(int num, String writer, String caption, String orgFileName, String saveFileName, long fileSize,
-			String imagePath, String regdate, int startRowNum, int endRowNum, MultipartFile myFile) {
+	public GalleryDto(int num, String writer, String caption, String imagePath, String regdate, int startRowNum,
+			int endRowNum, int prevNum, int nextNum, MultipartFile image) {
 		super();
 		this.num = num;
 		this.writer = writer;
 		this.caption = caption;
-		this.orgFileName = orgFileName;
-		this.saveFileName = saveFileName;
-		this.fileSize = fileSize;
 		this.imagePath = imagePath;
 		this.regdate = regdate;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
-		this.myFile = myFile;
+		this.prevNum = prevNum;
+		this.nextNum = nextNum;
+		this.image = image;
 	}
 
 	public int getNum() {
@@ -62,30 +54,6 @@ public class GalleryDto {
 
 	public void setCaption(String caption) {
 		this.caption = caption;
-	}
-
-	public String getOrgFileName() {
-		return orgFileName;
-	}
-
-	public void setOrgFileName(String orgFileName) {
-		this.orgFileName = orgFileName;
-	}
-
-	public String getSaveFileName() {
-		return saveFileName;
-	}
-
-	public void setSaveFileName(String saveFileName) {
-		this.saveFileName = saveFileName;
-	}
-
-	public long getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(long fileSize) {
-		this.fileSize = fileSize;
 	}
 
 	public String getImagePath() {
@@ -120,12 +88,28 @@ public class GalleryDto {
 		this.endRowNum = endRowNum;
 	}
 
-	public MultipartFile getMyFile() {
-		return myFile;
+	public int getPrevNum() {
+		return prevNum;
 	}
 
-	public void setMyFile(MultipartFile myFile) {
-		this.myFile = myFile;
-	}	
-	
+	public void setPrevNum(int prevNum) {
+		this.prevNum = prevNum;
+	}
+
+	public int getNextNum() {
+		return nextNum;
+	}
+
+	public void setNextNum(int nextNum) {
+		this.nextNum = nextNum;
+	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
 }

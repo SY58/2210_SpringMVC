@@ -8,27 +8,22 @@
 <title>/views/gallery/uploadform.jsp</title>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="container">
-		<h3>파일 업로드 폼입니다.</h3>
-		<form action="upload" method="post" enctype="multipart/form-data">
-			<div>
-				<label for="title">제목</label>
-				<input type="text" name="title" id="title" />
-			</div>
-			<div>
-				<label for="caption">이미지 설명(캡션)</label>
-				<input type="text" name="caption" id="caption" />
-			</div>
-			<div>
-				<label for="myFile">첨부파일</label>
-				<input type="file" name="myFile" id="myFile" />
-			</div>			
-			<button type="submit" class="btn btn-outline-warning" style="margin-top: 10px;">업로드</button>			
-		</form>
+	   	<h1>이미지 업로드 폼</h1>
+	   	<form action="${pageContext.request.contextPath}/gallery/upload" method="post" enctype="multipart/form-data">
+	      	<div>
+	         	<label for="caption">설명</label>
+	         	<input type="text" name="caption" id="caption"/>
+	      	</div>
+	      	<div>
+	         	<label for="image">이미지</label>
+	         	<input type="file" name="image" id="image"
+	            	accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
+	      	</div>
+	      	<button type="submit">업로드</button>
+	   	</form>
 	</div>
 </body>
-
 </html>

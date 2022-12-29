@@ -2,10 +2,8 @@ package com.sy.boot06.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sy.boot06.MyInterceptor;
@@ -20,7 +18,6 @@ import com.sy.boot06.MyInterceptor;
  */
 
 @Configuration
-@EnableWebMvc //스프링이 자동 설정해주는 모든 기능을 사용하기 위해서 붙여주어야 한다.
 public class WebConfig implements WebMvcConfigurer {
 	/*
 	 * servlet-context.xml에서 설정했던
@@ -50,9 +47,11 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 	
+	/*
 	//view page의 prefix, suffix 설정
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
+	*/
 }

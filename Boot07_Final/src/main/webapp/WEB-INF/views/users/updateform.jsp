@@ -59,7 +59,7 @@
                
    </div>
    <!-- sy_util.js 로딩 -->
-   <script src="${pageContext.request.contextPath }/resources/js/sy_util.js"></script>
+   <script src="${pageContext.request.contextPath }/js/sy_util.js"></script>
    <script>
 
       //프로필 이미지 링크를 클릭하면 

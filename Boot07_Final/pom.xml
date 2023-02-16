@@ -67,6 +67,12 @@
 		    <artifactId>spring-boot-starter-tomcat</artifactId>
 		    <scope>provided</scope> <!-- 안되어 있는 경우 변경! -->
 		</dependency>
+		<!-- mp3 파일에서 Meta Data 를 추출하기 위한 Dependency -->
+		<dependency>
+		    <groupId>org</groupId>
+		    <artifactId>jaudiotagger</artifactId>
+		    <version>2.0.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

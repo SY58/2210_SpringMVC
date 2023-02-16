@@ -17,8 +17,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sy.boot07.gallery.dao.GalleryDao;
 import com.sy.boot07.gallery.dto.GalleryDto;
 
+/*
+ * 안드로이드의 App요청을 처리할 컨트롤러
+ */
+
 @Controller
 public class AndroidController {
+	
+	@RequestMapping("/api/music/list")
+	@ResponseBody
+	public List<Map<String,Object>> getMusicList(){
+		Map<String,Object> song1=new HashMap<>();
+		song1.put("title", "쇼팽 녹턴");
+		song1.put("fileName", "mp3piano.mp3");
+		
+		Map<String,Object> song2=new HashMap<>();
+		song2.put("title", "Over The Horizon");
+		song2.put("fileName", "Over_the_Horizon.mp3");
+		
+		List<Map<String,Object>> list = new ArrayList<>();
+		list.add(song1);
+		list.add(song2);
+		
+		return list;
+	}
 	
 	
 	/*

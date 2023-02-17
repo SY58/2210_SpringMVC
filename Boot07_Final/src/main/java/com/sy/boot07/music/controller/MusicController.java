@@ -6,9 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sy.boot07.music.dto.MusicDto;
 import com.sy.boot07.music.service.MusicService;
 
 @Controller
@@ -40,5 +42,16 @@ public class MusicController {
 		
 		mView.setViewName("music/list");
 		return mView;
+	}
+	
+	/*
+	 * get 방식 파라미터로 전달되는 num에 해당하는 음악 하나의 정보를 json 형식의 문자열로 응답하는 컨트롤러 메소드
+	 * {"writer":"xxx", "title":"xxx", "saveFileName":"xxx", .... }
+	 */
+	@RequestMapping("/music/detail")
+	@ResponseBody
+	public MusicDto detail(int num) {
+		
+		return service.getDetail(num);
 	}
 }

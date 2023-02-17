@@ -25,9 +25,12 @@ public class MusicDaoImpl implements MusicDao {
 	}
 
 	@Override
-	public List<MusicDto> getList() {
-		
-		return session.selectList("music.getList"); //session을 통해서sleelct한 메소드를보내주는
+	public List<MusicDto> getList(String id) {
+		/*
+		 * parameter type => String
+		 * result type => MusicDto
+		 */
+		return session.selectList("music.getList", id); //session을 통해서selelct한 메소드를보내주는
 	}
 
 }

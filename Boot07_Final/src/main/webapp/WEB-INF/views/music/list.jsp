@@ -9,6 +9,31 @@
 <title>/music/list.jsp</title>
 </head>
 <body>
-
+	<div class="container">
+		<h3>${sessionScope.id} 님의 음악 파일 목록입니다.</h3>
+		<audio src="/boot07/resources/upload/xxx.mp3" controls></audio>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>아티스트</th>
+					<th>파일명</th>
+					<th>업로드일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="tmp" items="${list }">
+					<tr>
+						<td>${tmp.num}</td>
+						<td>${tmp.title}</td>
+						<td>${tmp.artist }</td>
+						<td>${tmp.orgFileName }</td>
+						<td>${tmp.regdate }</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

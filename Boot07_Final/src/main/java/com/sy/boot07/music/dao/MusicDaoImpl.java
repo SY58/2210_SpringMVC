@@ -42,4 +42,10 @@ public class MusicDaoImpl implements MusicDao {
 		return session.selectOne("music.getData", num);
 	}
 
+	@Override
+	public void delete(int num) {
+		session.delete("music.delete", num);
+		
+	}
+
 }

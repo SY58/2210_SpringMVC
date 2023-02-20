@@ -32,7 +32,7 @@ public class MusicServiceImpl implements MusicService {
 		//업로드한 클라이언트의 아이디(=writer)
 		String id=(String)request.getSession().getAttribute("id");
 		
-		dto.setWriter("banana");
+		dto.setWriter(id);
 		
 		//원본 파일명 -> 저장할 파일 이름 만들기위해서 사용됨
 		String orgFileName = file.getOriginalFilename();
@@ -101,6 +101,23 @@ public class MusicServiceImpl implements MusicService {
 	public MusicDto getDetail(int num) {
 		
 		return dao.getData(num);
+	}
+
+	@Override
+	public void deleteFile(int num, HttpServletRequest request) {
+		//삭제할 파일의 정보를 읽어온다.
+		MusicDto dto=dao.getData(num);
+		//1. 파일 시스템에서 삭제 (삭제할 파일을 가리키는 파일 객체가 필요하다)
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/resources/upload");
+		//db 에 저장할 저장할 파일의 상세 경로
+		String filePath = realPath + File.separator;
+		//파일 객체를 생성해서
+		File f=new File(filePath);
+		//메소드를 이송해서 삭제
+		f.delete();
+		//2. DB에서도 삭제
+		dao.delete(num);		
 	}
 
 }

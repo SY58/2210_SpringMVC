@@ -54,6 +54,7 @@ public class MusicAspect {
 	    
 	    //aspect 가 적용된 메소드가 호출 되기 직전에 할 작업은 여기서 한다.		
 		Object obj=joinPoint.proceed();
+		//aspect 가 적용된 메소드 수행하기
 		return obj;
 	}
 }

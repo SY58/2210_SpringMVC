@@ -24,7 +24,7 @@ import com.sy.boot07.gallery.dto.GalleryDto;
 @Controller
 public class AndroidController {
 	
-	@RequestMapping("/api/music/list")
+	//@RequestMapping("/api/music/list")
 	@ResponseBody
 	public List<Map<String,Object>> getMusicList(){
 		Map<String,Object> song1=new HashMap<>();

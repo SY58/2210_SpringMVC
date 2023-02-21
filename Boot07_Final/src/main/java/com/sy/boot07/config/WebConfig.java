@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer{
 		
 		//모바일 요청에 대해 개입할 인터셉터 등록
 		registry.addInterceptor(mLoginInterceptor)
-		.addPathPatterns("/api/gallery/*");
+		.addPathPatterns("/api/gallery/*", "/api/music/*");
 		
 		
 	}

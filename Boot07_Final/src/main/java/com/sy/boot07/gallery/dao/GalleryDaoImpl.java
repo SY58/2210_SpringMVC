@@ -59,4 +59,10 @@ public class GalleryDaoImpl implements GalleryDao {
 		return session.selectOne("gallery.getData", num);
 	}
 
+	@Override
+	public List<GalleryDto> getListAll() {
+		
+		return session.selectList("gallery.getListAll");
+	}
+
 }

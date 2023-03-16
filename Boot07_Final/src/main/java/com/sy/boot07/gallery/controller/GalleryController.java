@@ -124,5 +124,21 @@ public class GalleryController {
 		
 		return dao.getListAll();
 	}
+	
+	@GetMapping("/test")
+	public String test() {
+		
+		return "redirect:/api/gallery/list";		
+	}
+	
+	@PostMapping("/api/gallery/delete")
+	@ResponseBody
+	public Map<String, Object> apiDelete(HttpServletRequest request, int num){
+		service.deleteGallery(request, num);
+	
+		Map<String, Object> map=new HashMap<>();
+		map.put("isSuccess", true);
+		return map;
+	}
 
 }
